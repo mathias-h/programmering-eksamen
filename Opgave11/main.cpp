@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <iostream>
+#include <math.h>
 
 class ComplexNumber {
     private:
@@ -25,47 +27,34 @@ class ComplexNumber {
         friend ComplexNumber operator/(ComplexNumber a, ComplexNumber b) {
             return ComplexNumber(
                 (a.m_real * b.m_real + a.m_imaginary * b.m_imaginary) / (pow(b.m_real, 2) + pow(b.m_imaginary,2)),
-                (b.m_real * a.m_imaginary - a.m_real * b.m_imaginary) / (pow(b.m_real, 2) + pow(b.m_imaginary,2))));
+                (b.m_real * a.m_imaginary - a.m_real * b.m_imaginary) / (pow(b.m_real, 2) + pow(b.m_imaginary,2)));
         }
         friend std::ostream& operator<<(std::ostream &out, const ComplexNumber &c)
         {
-            out << c.m_real + " + i" + c.m_imaginary;
+            out << c.m_real << " + i" << c.m_imaginary << "\n";
             return out;
         }
 };
 
-ComplexNumber getComplexNumber() {
-    int real = -1, imaginay;
-
-    while (real == -1) {
-        if (scanf("%f + i%f", &real, &imaginay) != 2) {
-            printf("invalid input, try again\n");
-            real = -1;
-        }
-    }
-
-    return ComplexNumber(real, imaginay);
-}
-
 int main() {
     char o;
-    ComplexNumber a, b, r;
-
+    float ra,rb,ia,ib;
     while (1) {
-        a = getComplexNumber();
-        if (scanf("%c", &o) == 0) {
-            cout << a;
-        } else {
-            b = getComplexNumber();
+        std::cout << "Enter expression: ";
 
-            switch (o) {
-                case "+": r=a+b; break;
-                case "-": r=a-b; break;
-                case "*": r=a*b; break;
-                case "/": r=a/b; break;
-            }
+        if (scanf("%f+i%f %c %f+i%f", &ra, &ia, &o, &rb, &ib) != 5) {
+            std::cout << "invalid expression\n";
+        }
 
-            cout << r;
+        ComplexNumber a(ra, ia);
+        ComplexNumber b(rb, ib);
+
+        switch (o) {
+            case '+': std::cout << a+b; break;
+            case '-': std::cout << a-b; break;
+            case '*': std::cout << a*b; break;
+            case '/': std::cout << a/b; break;
+            default: std::cout << "invalid operator";
         }
     }
 }
