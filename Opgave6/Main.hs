@@ -14,6 +14,7 @@ theDatabase =
     , DbNumber 42
     ]
 
+-- TODO fix
 isDbString :: DatabaseItem -> Bool
 isDbString (DbString _) = True
 isDbString _ = False
