@@ -1,5 +1,6 @@
 module Main where
 
+safeTail :: [a] -> Maybe [a]
 safeTail [] = Nothing
 safeTail xs = Just $ tail xs
 

@@ -22,16 +22,16 @@ insert (Node v l r) nv =
         else Node v l (insertValue r nv)
     where
         insertValue :: (Ord a) => Maybe (BinaryTree a) -> a -> Maybe (BinaryTree a)
-        insertValue (Just s) v = Just $ insert s v
-        insertValue (Nothing) v = Just $ Leaf v
+        insertValue (Just s) u = Just $ insert s u
+        insertValue (Nothing) u = Just $ Leaf u
 
 fromList :: (Ord a) => [a] -> (BinaryTree a)
 fromList (x:xs) = _fromList xs (Leaf x)
+        where
+            _fromList :: (Ord a) => [a] -> (BinaryTree a) -> (BinaryTree a)
+            _fromList (y:ys) t = _fromList ys (insert t y)
+            _fromList [] t = t
 fromList [] = error "you cannot make a binary tree from an empty list"
-_fromList :: (Ord a) => [a] -> (BinaryTree a) -> (BinaryTree a)
-_fromList (x:xs) t = _fromList xs (insert t x)
-_fromList [] t = t
--- TODO fix
 
 toList :: (BinaryTree a) -> [a]
 toList (Node v (Just l) (Just r)) = (toList l) ++ [v] ++ (toList r)
@@ -40,7 +40,9 @@ toList (Node v (Just l) (Nothing)) = (toList l) ++ [v]
 toList (Node v Nothing Nothing) = [v]
 toList (Leaf v) = [v]
 
+tree :: BinaryTree Integer
 tree = Node 4 (Just $ Node 2 (Just $ Leaf 1) (Just $ Leaf 3)) (Just $ Node 6 Nothing (Just $ Leaf 8))
+charTree :: BinaryTree Char
 charTree = Node 'd' (Just $ Node 'b' (Just $ Leaf 'a') (Just $ Leaf 'c')) (Just $ Node 'f' Nothing (Just $ Leaf 'g'))
 
 main :: IO()
